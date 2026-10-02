@@ -1594,7 +1594,7 @@ Details:
 - Failure: If the email service is unavailable for the whole batch, no reminder is recorded, and the user is told that no reminders were sent, so she can try again. The user shall be able to cancel the use case at any time before confirming the reminder.
 
 **Assumptions:**
-**Open Issues:**
+**Open Issues:** Whether a course section that is no longer active shows any non-submitters.
 
 ## **Instructor**
 
