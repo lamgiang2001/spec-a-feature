@@ -1548,7 +1548,7 @@ Details:
 4. The user indicates to remind the non-submitters.
 5. The system displays how many students will be reminded and asks the user to confirm.
 6. The user confirms the reminder.
-7. The system sends each non-submitter who has not already been sent a manual reminder for the previous week one reminder, according to the "Reminder content" defined in the Associated Information of this use case.
+7. The system sends one reminder, according to the "Reminder content" defined in the Associated Information of this use case, to each student who is still a non-submitter when the user confirms and has not already been sent a manual reminder for the previous week (BR-non-submitter, BR-reminder-limit).
 8. The system records each reminder sent with its student, week, and sender.
 9. The system informs the user how many reminders were sent.
 10. Use case ends.
