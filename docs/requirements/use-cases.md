@@ -1569,7 +1569,7 @@ Details:
 - **6a. The user cancels the reminder:**
   - 6a1. No reminder is sent.
   - 6a2. Use case ends.
-  - **6b. The previous week has changed since the list was displayed** (e.g., the list was displayed on Sunday and the user confirms on Monday):
+  **6b. The previous week has changed since the list was displayed** (e.g., the list was displayed on Sunday and the user confirms on Monday):
   - 6b1. The system does not send any reminder and informs the user that the list is out of date.
   - 6b2. Returns to step 2 of the normal flow.
 - **7a. The email service rejects the address of one or more students:**
