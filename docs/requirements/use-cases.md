@@ -1522,6 +1522,77 @@ Details:
 **Assumptions:**
 **Open Issues:**
 
+### **UC-STU-remind-non-submitters: The course admin/instructor reminds the students who have not submitted**
+
+**UC ID and Name:** UC-STU-remind-non-submitters: Remind the students who have not submitted
+**Created By:** Giang Tran
+**Date Created:** 10/01/2026
+**Primary Actor:** course admin, instructor
+**Secondary Actors:** student (receives the reminder), email service
+**Trigger:** The user indicates to view the students of a course section who have not submitted.
+**Description:** The user wants to see which students of a course section have not submitted their weekly activity report or peer evaluation for the previous week, so that she can remind only those students instead of the whole course section.
+
+**Preconditions:**
+- PRE-1. The user is logged into the system.
+- PRE-2. The user is assigned to the course section, or owns the course it belongs to (BR-section-scoped-access).
+
+**Postconditions:**
+- POST-1. The user is shown the non-submitters of the course section for the previous week, and which artifact each has not submitted (BR-non-submitter).
+- POST-2. A reminder is sent to each non-submitter who had not already been sent a manual reminder for the previous week (BR-reminder-limit).
+- POST-3. Each reminder sent is recorded with its student, week, and sender, so the limit in BR-reminder-limit can be enforced.
+
+**Main Success Scenario:**
+1. The user indicates to view the students of a course section who have not submitted.
+2. The system displays each non-submitter of the course section for the previous week, and which artifact each has not submitted (BR-non-submitter).
+3. The system displays how many non-submitters there are, and which of them have already been sent a manual reminder for the previous week (BR-reminder-limit).
+4. The user indicates to remind the non-submitters.
+5. The system displays how many students will be reminded and asks the user to confirm.
+6. The user confirms the reminder.
+7. The system sends each non-submitter who has not already been sent a manual reminder for the previous week one reminder, according to the "Reminder content" defined in the Associated Information of this use case.
+8. The system records each reminder sent with its student, week, and sender.
+9. The system informs the user how many reminders were sent.
+10. Use case ends.
+
+**Extensions:**
+- **2a. The previous week is not one of the course section's active weeks:**
+  - 2a1. The system informs the user that no submissions were expected for the previous week, so no student is a non-submitter (BR-active-weeks, BR-non-submitter).
+  - 2a2. Use case ends.
+- **2b. No student of the course section is a non-submitter for the previous week:**
+  - 2b1. The system informs the user that every student has submitted for the previous week.
+  - 2b2. Use case ends.
+- **4a. The user does not indicate to remind the non-submitters:**
+  - 4a1. No reminder is sent.
+  - 4a2. Use case ends.
+- **5a. Every non-submitter has already been sent a manual reminder for the previous week:**
+  - 5a1. The system informs the user that each non-submitter has already been reminded for the previous week and that no further manual reminder may be sent (BR-reminder-limit).
+  - 5a2. Use case ends.
+- **6a. The user cancels the reminder:**
+  - 6a1. No reminder is sent.
+  - 6a2. Use case ends.
+- **7a. The email service rejects the address of one or more students:**
+  - 7a1. The system continues with the remaining students rather than abandoning the batch, so that one undeliverable address does not cost the other students their reminder.
+  - 7a2. The system does not record a reminder for a student whose reminder was not sent, so she may still be reminded for the previous week.
+  - 7a3. The system reports to the user which students could not be reminded.
+  - 7a4. Returns to step 8 of the normal flow.
+- **7b. Another user has sent a manual reminder to one or more of the students after step 5:**
+  - 7b1. The system does not send those students a second reminder (BR-reminder-limit).
+  - 7b2. The system continues step 7 for the remaining students.
+
+**Priority:** Medium
+**Frequency of Use:** Approximately 1-2 users per course section, 1-2 usages per week.
+**Business Rules:** BR-section-scoped-access, BR-role-based-access, BR-non-submitter, BR-reminder-limit, BR-active-weeks, BR-evaluation-submission-window
+
+**Associated Information:**
+- Reminder content: The reminder uses the subject "ProjectPulse Submission Reminder", greets the student by first name, and names each artifact she has not submitted for the previous week, identifying the week by its Monday's date. It does not name or reveal any other student.
+- Who is listed: A student not assigned to a team or deactivated is never listed (BR-non-submitter). A student whose weekly activity report for the previous week had activities that were all deleted is listed as a weekly activity report non-submitter, because her report contains no activity.
+- Submission window: The peer evaluation for the previous week is always within its submission window during the current week (BR-evaluation-submission-window), so every peer evaluation non-submitter shown can still submit.
+- Scheduled reminders: The scheduled reminder (FR-NOT-weekly-reminder) is separate from this use case and does not count toward BR-reminder-limit.
+- Privacy: Submission status is a student record (CO-ferpa). Only users permitted by BR-section-scoped-access see the list; no student sees it.
+- Failure: If the email service is unavailable for the whole batch, no reminder is recorded, and the user is told that no reminders were sent, so she can try again. The user shall be able to cancel the use case at any time before confirming the reminder.
+
+**Assumptions:**
+**Open Issues:**
+
 ## **Instructor**
 
 ### **UC-INS-invite-instructors: The course admin invites instructors to register an account**
